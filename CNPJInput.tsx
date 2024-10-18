@@ -12,7 +12,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PiMagnifyingGlass } from "react-icons/pi";
 
 type TextInputProps = {
     form: UseFormReturn<any>;
@@ -49,13 +48,7 @@ export default function CNPJInput(props: TextInputProps) {
 
                 return (
                     <FormItem className="space-y-3">
-                        <FormLabel className="flex items-center justify-between mt-1">
-                            <p>CNPJ</p>
-                            <div className="flex items-center gap-2 text-blue-500 cursor-pointer">
-                                <p className="text-xs">Buscar dados</p>
-                                <PiMagnifyingGlass />
-                            </div>
-                        </FormLabel>
+                        <FormLabel>CNPJ</FormLabel>
                         <FormControl>
                             <Input
                                 placeholder=""
