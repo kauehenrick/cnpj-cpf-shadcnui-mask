@@ -24,8 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 const formSchema = z.object({
+  cpf: z.string().min(11, { message: "O CPF deve conter 11 caracteres." }),
+  cnpj: z.string().min(14, { message: "O CNPJ deve conter 14 caracteres." }),
   personRegisterNumber: z.string().min(2).max(50),
   personType: z.string(),
 });
@@ -36,7 +40,8 @@ function App() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      personRegisterNumber: "",
+      cpf: "",
+      cnpj: "",
       personType: "juridica",
     },
   })
@@ -46,56 +51,64 @@ function App() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div>
-          <FormField
-            control={form.control}
-            name="personType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tipo de pessoa</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    setHandlePersonType(value);
-                  }}
-                  defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="w-[150px]">
-                      <SelectValue placeholder="Selecione o tipo de pessoa" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="juridica">Jurídica</SelectItem>
-                    <SelectItem value="fisica">Física</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormDescription></FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <main className="flex flex-col items-center justify-between h-screen py-7">
+      <Header />
 
-          {handlePersonType == "juridica"
-            ? <FormField
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-end space-y-8">
+          <div className="flex gap-3">
+            <FormField
               control={form.control}
-              name="personRegisterNumber"
+              name="personType"
               render={({ field }) => (
-                <CNPJInput form={form} {...field} />
+                <FormItem>
+                  <FormLabel>Tipo de pessoa</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setHandlePersonType(value);
+                    }}
+                    defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-[150px]">
+                        <SelectValue placeholder="Selecione o tipo de pessoa" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="juridica">Jurídica</SelectItem>
+                      <SelectItem value="fisica">Física</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
               )}
             />
-            : <FormField
-              control={form.control}
-              name="personRegisterNumber"
-              render={({ field }) => (
-                <CPFInput form={form} {...field} />
-              )}
-            />
-          }
-        </div>
-      </form>
-    </Form>
+
+            {handlePersonType == "juridica"
+              ? <FormField
+                control={form.control}
+                name="cnpj"
+                render={({ field }) => (
+                  <CNPJInput form={form} {...field} />
+                )}
+              />
+              : <FormField
+                control={form.control}
+                name="cpf"
+                render={({ field }) => (
+                  <CPFInput form={form} {...field} />
+                )}
+              />
+            }
+          </div>
+
+          <Button type="submit">Salvar</Button>
+        </form>
+      </Form>
+
+      <Footer />
+    </main>
   )
 }
 

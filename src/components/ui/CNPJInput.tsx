@@ -45,7 +45,7 @@ export default function CNPJInput(props: TextInputProps) {
                 const _change = field.onChange;
 
                 return (
-                    <FormItem className="space-y-3">
+                    <FormItem>
                         <FormLabel>CNPJ</FormLabel>
                         <FormControl>
                             <Input
@@ -58,8 +58,7 @@ export default function CNPJInput(props: TextInputProps) {
                                     const newValue = ev.target.value;
                                     setValue(newValue);
                                     handleChange(_change, newValue);
-                                }}
-                                className='w-[220px]'
+                                }} 
                             />
                         </FormControl>
                         <FormDescription className="hidden" />

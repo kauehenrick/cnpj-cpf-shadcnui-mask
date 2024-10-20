@@ -58,7 +58,6 @@ export default function CPFInput(props: TextInputProps) {
                                     setValue(newValue);
                                     handleChange(_change, newValue);
                                 }}
-                                className='w-[220px]'
                             />
                         </FormControl>
                         <FormDescription className="hidden" />
